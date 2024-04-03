@@ -1,0 +1,80 @@
+configs:
+  cm:
+    url: ${argocd_url}
+    admin.enabled: ${admin.enabled}
+
+    ssh:
+      extraHosts: |
+        bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+        github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+
+server:
+  metrics:
+    enabled: ${monitoring.enabled}
+  resources:
+    requests:
+      cpu: ${server_scaling.resources.requests.cpu}
+      memory: ${server_scaling.resources.requests.memory}
+    limits:
+      cpu: ${server_scaling.resources.limits.cpu}
+      memory: ${server_scaling.resources.limits.memory}
+  autoscaling:
+    enabled: true
+    minReplicas: ${server_scaling.autoscaling.min_replicas}
+    maxReplicas: ${server_scaling.autoscaling.max_replicas}
+    targetCPUUtilizationPercentage: ${server_scaling.autoscaling.target_cpu_utilization_percentage}
+    targetMemoryUtilizationPercentage: ${server_scaling.autoscaling.target_memory_utilization_percentage}
+
+repoServer:
+  metrics:
+    enabled: ${monitoring.enabled}
+  resources:
+    requests:
+      cpu: ${repo_server_scaling.resources.requests.cpu}
+      memory: ${repo_server_scaling.resources.requests.memory}
+    limits:
+      cpu: ${repo_server_scaling.resources.limits.cpu}
+      memory: ${repo_server_scaling.resources.limits.memory}
+  autoscaling:
+    enabled: true
+    minReplicas: ${repo_server_scaling.autoscaling.min_replicas}
+    maxReplicas: ${repo_server_scaling.autoscaling.max_replicas}
+    targetCPUUtilizationPercentage: ${repo_server_scaling.autoscaling.target_cpu_utilization_percentage}
+    targetMemoryUtilizationPercentage: ${repo_server_scaling.autoscaling.target_memory_utilization_percentage}
+
+dex:
+  metrics:
+    enabled: ${monitoring.enabled}
+  resources:
+    requests:
+      cpu: ${dex_scaling.resources.requests.cpu}
+      memory: ${dex_scaling.resources.requests.memory}
+    limits:
+      cpu: ${dex_scaling.resources.limits.cpu}
+      memory: ${dex_scaling.resources.limits.memory}
+
+controller:
+  metrics:
+    enabled: ${monitoring.enabled}
+  resources:
+    requests:
+      cpu: ${controller_scaling.resources.requests.cpu}
+      memory: ${controller_scaling.resources.requests.memory}
+    limits:
+      cpu: ${controller_scaling.resources.limits.cpu}
+      memory: ${controller_scaling.resources.limits.memory}
+  args:
+    statusProcessors: ${controller_args.status_processors}
+    operationProcessors: ${controller_args.operation_processors}
+    appResyncPeriod: ${controller_args.app_resync_period}
+    selfHealTimeout: ${controller_args.self_heal_timeout}
+    repoServerTimeoutSeconds: ${controller_args.repo_server_timeout_seconds}
+
+redis:
+  enabled: false
+
+externalRedis:
+  host: ${redis.host}
+  username: ${redis.username}
+  password: ${redis.password}
+  port: ${redis.port}

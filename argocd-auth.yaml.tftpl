@@ -1,0 +1,17 @@
+configs:
+  secret:
+    extra:
+      dex.github.clientID : "${oauth.client_id}"
+      dex.github.clientSecret : "${oauth.client_secret}"
+
+  cm:
+     dex.config: |
+       connectors:
+         - type: github
+           id: github
+           name: GitHub
+           config:
+             clientID: $dex.github.clientID
+             clientSecret: $dex.github.clientSecret
+             orgs:
+               - name: ${oauth.organization}
